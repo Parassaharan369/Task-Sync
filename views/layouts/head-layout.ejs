@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        const userLoggedIn = JSON.parse('<%-JSON.stringify(userLoggedIn)%>');
+    </script>
+    <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/color-calendar/dist/css/theme-basic.css" />
+    <script src="https://cdn.jsdelivr.net/npm/color-calendar/dist/bundle.js"></script>
+    <script src="https://kit.fontawesome.com/0f759e3ba5.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script type="text/javascript" src="/javascript/loading-bar.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/loading-bar.css"/>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.css" integrity="sha512-+VDbDxc9zesADd49pfvz7CgsOl2xREI/7gnzcdyA9XjuTxLXrdpuz21VVIqc5HPfZji2CypSbxx1lgD7BgBK5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.js" integrity="sha512-ZK6m9vADamSl5fxBPtXw6ho6A4TuX89HUbcfvxa2v2NYNT/7l8yFGJ3JlXyMN4hlNbz0il4k6DvqbIW5CCwqkw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <title>TaskSync | <%= locals.title %> </title>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="TaskSync-logo">
+            <img src="/images/logo.png" alt="" class="TaskSync-icon">
+        </div>
+        <div class="sidebar-links">
+            <ul class="sidebar-links__links-container">
+                <a href="/overview">
+                    <li class="sidebar-links__link">
+                        <img src="/images/home.png" alt="">
+                        <h2>Overview</h2>
+                    </li>
+                </a>
+                <a href="/todo">
+                    <li class="sidebar-links__link">
+                        <img src="/images/to-do-list.png" alt="">
+                        <h2>To-Do Lists</h2>
+                    </li>
+                </a>
+                <a href="/users">
+                    <li class="sidebar-links__link">
+                        <img src="/images/loupe.png" alt="">
+                        <h2>Users</h2>
+                    </li>
+                </a>
+                <!-- <a href="/chats">
+                    <li class="sidebar-links__link">
+                        <img src="/images/messenger.png" alt="">
+                        <h2>Chats</h2>
+                    </li>
+                </a> -->
+                <!-- <li class="sidebar-links__link">
+                    <img src="/images/bookmark.png" alt="">
+                    <h2>Courses</h2>
+                </li>
+                <li class="sidebar-links__link">
+                    <img src="/images/edit.png" alt="">
+                    <h2>Articles</h2>
+                </li> -->
+            </ul>
+        </div>
+    </div>
+    <div class="right-pane">
+        <nav class="navbar">
+            <div class="search-bar-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" name="search" id="search" placeholder="Search" class="search-input">
+            </div>
+            
+            <!-- <div class="notification-container">
+                <div class="alert"></div>
+                <i class="fas fa-bell notification-icon"></i>
+            </div> -->
+            <div class="user-container">
+                <h2 class="user-container__name"><%= `${locals.userLoggedIn.name}`%> </h2>
+                <div id="userContainerIcon" class="user-container__icon-container">
+                    <img src="<%=locals.userLoggedIn.profilePic%>" alt="">
+                </div>
+            </div>
+        </nav>
+        <div id="managerPopup" class="manager-popup">
+            <div class="manager-popup-top">
+                <h3 class="manager-popup-icon__name"><%= `${locals.userLoggedIn.name}`%></h3>
+                <div class="manager-popup-top__img-container">
+                    <img class="manager-popup-top__img" src="<%=locals.userLoggedIn.profilePic%>" alt="">
+                </div>
+            </div>
+            <div class="manager-popup-down">
+                <h2 class="manager-popup-down__email"><%= `${locals.userLoggedIn.email}`%></h2>
+                <div class="manager-popup-down__options-container">
+                    <a href="/userProfile/<%=locals.userLoggedIn._id%>" class="settings">
+                        <span class="option-icon settings-icon material-icons material-icons-outlined">settings</span>   
+                        <h3 class="settings-name">Profile</h3>                     
+                    </a>
+                    <a href="/logout" class="logout">
+                        <span class="option-icon logout-icon material-icons material-icons-outlined">logout</span>
+                        <h3 class="logout-name">Logout</h3>                     
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="main-content">
+            <div id="searchResults" class="search-results users-container hidden">
+            </div>
+            <div class="back-style"></div>
